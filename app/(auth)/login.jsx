@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router';
 
 const login = () => {
 
-     const [email, setEmail] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const router = useRouter();
      const handleLogin = () => {
@@ -30,7 +30,7 @@ const login = () => {
         onChangeText={setPassword}
         secureTextEntry
           />
-        <Button title="Đăng nhập" onPress={() => { handleLogin }} />
+        <Button title="Đăng nhập" onPress={() =>  handleLogin() } />
         <TouchableOpacity onPress={() => router.push('signUp')} >
         <Text style={styles.signUpText}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
