@@ -1,11 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import ScreenWrapper from '../../components/ScreenWrapper'
+import SearchBar from '../../components/SearchBar'
 
 const home = () => {
   return (
-    <View>
-      <Text>home</Text>
-    </View>
+    <ScreenWrapper>
+      <View>
+        <Text>hello</Text>
+      </View>
+  </ScreenWrapper>
   )
 }
 
