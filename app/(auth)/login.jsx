@@ -7,28 +7,22 @@ import {
   Button,
   Image,
   Alert,
-  ToastAndroid,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "expo-router";
 import { apiLink } from "../config/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { UserContext } from "../context/UserContext";
 
 const login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
-  const showMessage = (message) => {
-    if (Platform.OS === "android") {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
-    } else {
-      Alert.alert("Thông báo", message);
-    }
-  };
+  const { updateUser } = useContext(UserContext);
 
   const handleLogin = async () => {
     if (!email || !password) {
-      showMessage("Vui lòng nhập email và mật khẩu!");
+      Alert.alert("Vui lòng nhập email và mật khẩu!");
       return;
     }
 
@@ -44,16 +38,22 @@ const login = () => {
         }),
       });
 
-      const result = await response.json();
-      console.log(result);
+      const dataUser = await response.json();
+      AsyncStorage.setItem("access_token", dataUser.access_token);
+      AsyncStorage.setItem("refresh_token", dataUser.refresh_token);
+      AsyncStorage.setItem("user", JSON.stringify(dataUser));
+
+      updateUser(dataUser);
+
+      console.log(dataUser);
       if (response.ok) {
         router.push(`/home`);
       } else {
-        showMessage("Lỗi", result.message || "Đăng nhập thất bại");
+        Alert.alert("Lỗi", dataUser.message || "Đăng nhập thất bại");
       }
     } catch (error) {
       console.error("Error:", error);
-      showMessage("Lỗi", "Không thể kết nối đến máy chủ.");
+      Alert.alert("Lỗi", "Không thể kết nối đến máy chủ.");
     }
   };
   return (

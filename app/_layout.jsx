@@ -1,15 +1,24 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import { View, Text } from "react-native";
+import React from "react";
+import { Stack } from "expo-router";
+import { UserProvider } from "./context/UserContext";
+import { CartProvider } from "./context/CartContext";
 
 const _layout = () => {
   return (
-      <Stack screenOptions={{
-      headerShown:false
-      }}>
-          <Stack.Screen name='(tab)'/>
-  </Stack>
-  )
-}
+    <UserProvider>
+      <CartProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tab)" />
+          <Stack.Screen name="(auth)" />
+        </Stack>
+      </CartProvider>
+    </UserProvider>
+  );
+};
 
-export default _layout
+export default _layout;
